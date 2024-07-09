@@ -13,7 +13,7 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/duopolis-bot.css"/>
 
         // sets the document title
-        <Title text="Welcome to Leptos"/>
+        <Title text="sup brah"/>
 
         // content for this welcome page
         <Router>
