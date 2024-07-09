@@ -1,7 +1,6 @@
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
-
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
@@ -14,7 +13,8 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         <Title text="Rusty Llama"/>
-
+        <ChatArea/>
+        <TypeArea/>
         // content for this welcome page
     }
 }
