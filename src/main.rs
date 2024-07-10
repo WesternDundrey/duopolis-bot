@@ -53,6 +53,13 @@ cfg_if! {
 
         fn get_language_model() -> Llama {
             use std::path::PathBuf;
+            dotenv().ok()
+            let model_path = env::var("MODEL_PATH").expect("MODEL_PATH must be set");
+            llm::load::<Llama>(
+                &PathBuf::from(&model_path),
+                llm::TokenizerSource::Embeddded,
+                Default
+            )
         }
     }
 }
