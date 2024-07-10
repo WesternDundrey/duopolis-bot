@@ -44,7 +44,18 @@ async fn favicon(
         "{site_root}/favicon.ico"
     ))?)
 }
+cfg_if! {
+    if #cfg!(feature = "ssr") {
+        use llm::models::Llama;
+        use actix_web::*;
+        use std::env;
+        use dotenv::dotenv;
 
+        fn get_language_model() -> Llama {
+            use std::path::PathBuf;
+        }
+    }
+}
 #[cfg(not(any(feature = "ssr", feature = "csr")))]
 pub fn main() {
     // no client-side main function
