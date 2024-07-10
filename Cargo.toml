@@ -23,6 +23,7 @@ rand = { version = "0.8.5", optional = true}
 [features]
 csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr"]
 hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+cfg-if = "1"
 ssr = [
   "dep:actix-files",
   "dep:actix-web",
