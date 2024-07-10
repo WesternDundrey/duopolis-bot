@@ -24,16 +24,24 @@ rand = { version = "0.8.5", optional = true}
 csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr"]
 hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
 cfg-if = "1"
+dotenv = {version = "1.15.0", optional = true}
+
+
 ssr = [
   "dep:actix-files",
   "dep:actix-web",
   "dep:leptos_actix",
   "dep:rand",
+  "dep:dotenv"
   "leptos/ssr",
   "leptos_meta/ssr",
   "leptos_router/ssr",
   "dep:llm"
 ]
+
+[profile.def.package.ggml-sys]
+opt-level = 3 
+
 
 # Defines a size-optimized profile for the WASM bundle in release mode
 [profile.wasm-release]

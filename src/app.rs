@@ -21,7 +21,7 @@ pub fn App(cx: Scope) -> impl IntoView {
             c.messages.push(user_message);
         });
 
-        // TODO conversation
+        converse(cx, conversation.get())
     });
     view! { cx,
         // injects a stylesheet into the document <head>
