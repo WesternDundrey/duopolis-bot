@@ -2,8 +2,6 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 mod components;
-use components::chat_area::ChatArea;
-use components::type_area::TypeArea;
 use crate::model::conversation::Conversation;
 
 #[component]
