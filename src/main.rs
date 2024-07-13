@@ -25,17 +25,15 @@ async fn main() -> std::io::Result<()> {
         let site_root = &leptos_options.site_root;
 
         App::new()
-            .app_data(model.clone())
-            // serve JS/WASM/CSS from `pkg`
-            .service(Files::new("/pkg", format!("{site_root}/pkg")))
-            // serve other assets from the `assets` directory
-            .service(Files::new("/assets", site_root))
-            // serve the favicon from /favicon.ico
-            .service(favicon)
-            .route("/api/{tail:.*}", leptos_actix::handle_server_fns())
+        .app_data(model.clone())
+        .service(Files::new("/pkg", format!("{site_root}/pkg")))
+        .service(Files::new("/assets", site_root))
+        .service(css)  // Add this line here
+        .service(favicon)
+        .route("/api/{tail:.*}", leptos_actix::handle_server_fns())
             .leptos_routes(leptos_options.to_owned(), 
             routes.to_owned(),
-            |cx| view! {cx, <App/>},
+            |cx| view! { cx, <App/> }
         )
             .app_data(web::Data::new(leptos_options.to_owned()))
         //.wrap(middleware::Compress::default())

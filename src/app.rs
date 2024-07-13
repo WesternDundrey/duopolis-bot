@@ -1,3 +1,5 @@
+#![feature(proc_macro_hygiene)]
+
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -8,9 +10,10 @@ use leptos::component;
 mod components;
 use components::chat_area::ChatArea;
 use components::type_area::TypeArea;
+use leptos_macro::component;
 
 use crate::model::conversation::{Conversation, Message};
-
+#[allow (non_snake_case)]
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.

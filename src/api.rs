@@ -15,33 +15,37 @@ cfg_if! {
         use actix_web::web::Payload;
         use actix_web::Error;
         use actix_ws::Message as Msg;
-        use futures::stream::{StreamExt};
+        use futures::stream::StreamExt;
         use leptos::*;
+        mod api;
+        use crate::api::ws;
 
         pub fn infer(model: Arc<Llama>, inference_session: &mut llm::InferenceSession, user_message: &String, tx: tokio::sync::mpsc::Sender<String>) -> Result<(), ServerFnError> {
             use tokio::runtime::Runtime;
 
-            // would love a way to avoid doing this if possible
-            let mut runtime = Runtime::new().expect("issue creating tokio runtime");
+            #[cfg(not(target_arch = "wasm32"))]
+            let mut runtime = Runtime::new_multi_thread().expect("issue creating tokio runtime");
+                .enable_all()
+                .build()
+                .expect("Failed to create Tokio runtime");
+                inference_session
+                    .infer(
+                        model.as_ref(),
+                        &mut rand::thread_rng(),
+                        &llm::InferenceRequest {
+                            prompt: format!("{USER_NAME}\n{user_message}\n{CHARACTER_NAME}:")
+                                .as_str()
+                                .into(),
+                            parameters: &llm::InferenceParameters::default(),
+                            play_back_previous_tokens: false,
+                            maximum_token_count: None,
+                        },
+                        &mut Default::default(),
+                        inference_callback(String::from(USER_NAME), &mut String::new(), tx, &mut runtime),
+                    )
+                    .unwrap_or_else(|e| panic!("{e}"));
 
-            inference_session
-                .infer(
-                    model.as_ref(),
-                    &mut rand::thread_rng(),
-                    &llm::InferenceRequest {
-                        prompt: format!("{USER_NAME}\n{user_message}\n{CHARACTER_NAME}:")
-                            .as_str()
-                            .into(),
-                        parameters: &llm::InferenceParameters::default(),
-                        play_back_previous_tokens: false,
-                        maximum_token_count: None,
-                    },
-                    &mut Default::default(),
-                    inference_callback(String::from(USER_NAME), &mut String::new(), tx, &mut runtime),
-                )
-                .unwrap_or_else(|e| panic!("{e}"));
-
-            Ok(())
+                Ok(())
         }
 
         fn session_setup(model: Arc<Llama>) -> llm::InferenceSession {
