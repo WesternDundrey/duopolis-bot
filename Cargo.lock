@@ -934,6 +934,7 @@ dependencies = [
  "dotenv",
  "env_logger",
  "futures",
+ "futures-util",
  "gloo-net 0.4.0",
  "leptos",
  "leptos_actix",

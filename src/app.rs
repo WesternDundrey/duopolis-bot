@@ -2,15 +2,15 @@
 
 use std::cell::RefCell;
 use std::rc::Rc;
+use futures_util::sink::SinkExt;
 
-use futures::stream::SplitSink;
 use leptos::*;
 use leptos_meta::*;
 use leptos::component;
 mod components;
 use components::chat_area::ChatArea;
 use components::type_area::TypeArea;
-use leptos_macro::component;
+
 
 use crate::model::conversation::{Conversation, Message};
 #[allow (non_snake_case)]
@@ -27,7 +27,9 @@ pub fn App() -> impl IntoView {
 
     use gloo_net::websocket::futures::WebSocket;
     use gloo_net::websocket::Message::Text as Txt;
-    use futures::{SinkExt, StreamExt};
+    use futures_util::stream::StreamExt;
+    use futures_util::stream::SplitSink;
+
     let client: Rc<RefCell<Option<SplitSink<WebSocket, gloo_net::websocket::Message>>>>
         = Default::default();
 
